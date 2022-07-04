@@ -1,0 +1,45 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# +++ Frontend files
+
+# dependencies
+/frontend/**/node_modules
+# roadhog-api-doc ignore
+/frontend/src/utils/request-temp.js
+/frontend/_roadhog-api-doc
+
+# production
+/frontend/dist
+
+# misc
+/frontend/.DS_Store
+/frontend/npm-debug.log*
+/frontend/yarn-error.log
+
+/frontend/coverage
+/frontend/.idea
+/frontend/yarn.lock
+/fronend/pnpm-lock.yaml
+/frontend/*bak
+
+
+# visual studio code
+/frontend/.history
+/frontend/*.log
+/frontend/functions/*
+/frontend/.temp/**
+
+# umi
+/frontend/.umi
+/frontend/.umi-production
+
+# screenshot
+/frontend/screenshot
+/frontend/.firebase
+/frontend/.eslintcache
+
+/frontend/build
+
+
+# +++ Backend files
+/backend/node_modules
