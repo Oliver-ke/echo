@@ -1,11 +1,12 @@
 datasource db {
-  provider = "postgresql"
+  provider = "mysql"
   url      = env("DATABASE_URL")
+  referentialIntegrity = "prisma"
 }
 
 generator client {
   provider = "prisma-client-js"
-  // previewFeatures = []
+  previewFeatures = ["referentialIntegrity"]
 }
 
 generator dbml {
@@ -13,7 +14,7 @@ generator dbml {
 }
 
 model User {
-  id        String   @id @default(cuid())
+  id        Int      @default(autoincrement()) @id
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   email     String   @unique
@@ -25,14 +26,14 @@ model User {
 }
 
 model Post {
-  id        String   @id @default(cuid())
+  id        Int     @default(autoincrement()) @id
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   published Boolean
   title     String
   content   String?
   author    User?    @relation(fields: [authorId], references: [id])
-  authorId  String?
+  authorId  Int?
 }
 
 enum Role {

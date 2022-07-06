@@ -1,16 +1,11 @@
 {
-  "name": "nestjs-prisma-client-starter",
+  "name": "echo",
   "version": "0.0.1",
-  "description": "NestJS Prisma Client Starter Project",
-  "author": "Marc Stammerjohann",
+  "description": "we rise by together",
+  "author": "Azorji Kelechi Oliver",
   "license": "MIT",
   "keywords": [
-    "nestjs",
-    "prisma",
-    "prisma client",
-    "typescript",
-    "passport",
-    "graphql"
+    "echo"
   ],
   "repository": {
     "type": "git",

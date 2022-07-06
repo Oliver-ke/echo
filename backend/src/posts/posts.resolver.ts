@@ -72,7 +72,7 @@ export class PostsResolver {
             title: { contains: query || '' },
           },
           orderBy: orderBy ? { [orderBy.field]: orderBy.direction } : null,
-          ...args,
+          ...(args as any),
         }),
       () =>
         this.prisma.post.count({
