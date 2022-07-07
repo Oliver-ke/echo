@@ -1,8 +1,8 @@
 {
-  "name": "ant-design-pro",
-  "version": "6.0.0-beta.1",
+  "name": "echi",
+  "version": "1",
   "private": true,
-  "description": "An out-of-box UI solution for enterprise applications",
+  "description": "A place to meet people with like mind",
   "scripts": {
     "analyze": "cross-env ANALYZE=1 max build",
     "build": "max build",

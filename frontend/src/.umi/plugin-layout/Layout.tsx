@@ -51,7 +51,7 @@ export default (props: any) => {
   const userConfig = {
   "locale": true,
   "siderWidth": 208,
-  "navTheme": "dark",
+  "navTheme": "light",
   "primaryColor": "#1890ff",
   "layout": "mix",
   "contentWidth": "Fluid",
