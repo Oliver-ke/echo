@@ -132,4 +132,7 @@ export default defineConfig({
       projectName: 'swagger',
     },
   ],
+  define: {
+    BACKEND_URL: 'https://echo-be.herokuapp.com/graphql',
+  },
 });
