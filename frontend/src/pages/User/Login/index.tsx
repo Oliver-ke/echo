@@ -1,11 +1,11 @@
+import { LoginUserDocument } from '@/apollo';
 import Footer from '@/components/Footer';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { LoginForm, ProFormCheckbox, ProFormText } from '@ant-design/pro-components';
 import { useMutation } from '@apollo/client';
-import { FormattedMessage } from '@umijs/max';
-import { Alert } from 'antd';
-import React, { useState } from 'react';
-import { LoginUserDocument } from '../../../graphql-operations';
+import { FormattedMessage, history } from '@umijs/max';
+import { Alert, message } from 'antd';
+import React from 'react';
 import styles from './index.less';
 
 const LoginMessage: React.FC<{
@@ -24,37 +24,24 @@ const LoginMessage: React.FC<{
 };
 
 const Login: React.FC = () => {
-  const [userLoginState, setUserLoginState] = useState<API.LoginResult>({});
-  const [loginUser, { loading, error }] = useMutation(LoginUserDocument);
-  console.log(loading, error);
+  const [loginUser, { error }] = useMutation(LoginUserDocument);
+
   const handleSubmit = async (values: API.LoginParams) => {
     const { autoLogin, ...emailAndPassword } = values;
     await loginUser({
       variables: { input: emailAndPassword },
       onError: () => {
-        // show error message
+        const defaultLoginFailureMessage = 'Incorrect email or password';
+        message.error(defaultLoginFailureMessage);
       },
       onCompleted: (data) => {
         console.log(data.login.accessToken);
+        localStorage.setItem('token', data.login.accessToken);
+        const urlParams = new URL(window.location.href).searchParams;
+        history.push(urlParams.get('redirect') || '/');
       },
     });
-    // try {
-    //   const msg = await login({ ...values, type: 'account' });
-    //   if (msg.status === 'ok') {
-    //     const defaultLoginSuccessMessage = 'Login successful';
-    //     message.success(defaultLoginSuccessMessage);
-    //     const urlParams = new URL(window.location.href).searchParams;
-    //     history.push(urlParams.get('redirect') || '/');
-    //     return;
-    //   }
-    //   setUserLoginState(msg);
-    // } catch (error) {
-    //   const defaultLoginFailureMessage = 'Incorrect email or password';
-    //   console.log(error);
-    //   message.error(defaultLoginFailureMessage);
-    // }
   };
-  const { status, type: loginType } = userLoginState;
 
   return (
     <div className={styles.container}>
@@ -70,7 +57,7 @@ const Login: React.FC = () => {
             await handleSubmit(values as API.LoginParams);
           }}
         >
-          {status === 'error' && <LoginMessage content="Login Error" />}
+          {error && <LoginMessage content="Login Error" />}
           <>
             <ProFormText
               name="email"
@@ -101,9 +88,6 @@ const Login: React.FC = () => {
               ]}
             />
           </>
-          {status === 'error' && loginType === 'mobile' && (
-            <LoginMessage content="Unable to process request" />
-          )}
           <div
             style={{
               marginBottom: 24,

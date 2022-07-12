@@ -1,5 +1,6 @@
 export default {
   'menu.welcome': 'Welcome',
+  'menu.Test Page': 'Test Page',
   'menu.more-blocks': 'More Blocks',
   'menu.home': 'Home',
   'menu.admin': 'Admin',
