@@ -1,12 +1,11 @@
 import Footer from '@/components/Footer';
-// import { login } from '@/services/ant-design-pro/api';
-import { LOGIN_USER } from '@/apollo/index';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { LoginForm, ProFormCheckbox, ProFormText } from '@ant-design/pro-components';
 import { useMutation } from '@apollo/client';
 import { FormattedMessage } from '@umijs/max';
 import { Alert } from 'antd';
 import React, { useState } from 'react';
+import { LoginUserDocument } from '../../../graphql-operations';
 import styles from './index.less';
 
 const LoginMessage: React.FC<{
@@ -26,13 +25,18 @@ const LoginMessage: React.FC<{
 
 const Login: React.FC = () => {
   const [userLoginState, setUserLoginState] = useState<API.LoginResult>({});
-  const [loginUser, { loading, error }] = useMutation(LOGIN_USER);
-
-  console.log(error, loading);
+  const [loginUser, { loading, error }] = useMutation(LoginUserDocument);
+  console.log(loading, error);
   const handleSubmit = async (values: API.LoginParams) => {
-    console.log(values);
+    const { autoLogin, ...emailAndPassword } = values;
     await loginUser({
-      variables: { data: values },
+      variables: { input: emailAndPassword },
+      onError: () => {
+        // show error message
+      },
+      onCompleted: (data) => {
+        console.log(data.login.accessToken);
+      },
     });
     // try {
     //   const msg = await login({ ...values, type: 'account' });

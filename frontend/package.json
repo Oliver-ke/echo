@@ -30,6 +30,7 @@
     "test": "max test",
     "test:component": "max test ./src/components",
     "test:e2e": "node ./tests/run-tests.js",
+    "codegen": "npx graphql-codegen",
     "tsc": "tsc --noEmit"
   },
   "lint-staged": {
@@ -63,6 +64,11 @@
   },
   "devDependencies": {
     "@ant-design/pro-cli": "^2.1.0",
+    "@graphql-codegen/cli": "^2.8.0",
+    "@graphql-codegen/typed-document-node": "^2.3.1",
+    "@graphql-codegen/typescript": "^2.7.1",
+    "@graphql-codegen/typescript-operations": "^2.5.1",
+    "@graphql-typed-document-node/core": "^3.1.1",
     "@playwright/test": "^1.17.0",
     "@types/classnames": "^2.3.1",
     "@types/express": "^4.17.0",

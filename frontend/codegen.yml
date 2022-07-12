@@ -1,0 +1,8 @@
+schema: https://echo-be.herokuapp.com/graphql
+documents: './src/**/*.graphql'
+generates:
+  ./src/graphql-operations.ts:
+    plugins:
+      - typescript
+      - typescript-operations
+      - typed-document-node
