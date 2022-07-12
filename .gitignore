@@ -31,7 +31,7 @@
 
 # umi
 /frontend/src/.umi
-/frontend/.umi-production
+/frontend/src/.umi-production
 
 # screenshot
 /frontend/screenshot
