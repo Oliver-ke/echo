@@ -13,3 +13,19 @@ mutation LoginUser($input: LoginInput!) {
     }
   }
 }
+
+mutation RegisterUser($input: SignupInput!) {
+  signup(data: $input) {
+    accessToken
+    refreshToken
+    user {
+      createdAt
+      email
+      firstname
+      id
+      lastname
+      role
+      updatedAt
+    }
+  }
+}

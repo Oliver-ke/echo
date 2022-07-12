@@ -24,6 +24,20 @@ export default [
     ],
   },
   {
+    path: '/user',
+    layout: false,
+    routes: [
+      {
+        name: 'register',
+        path: '/user/register',
+        component: './User/Register',
+      },
+      {
+        component: './404',
+      },
+    ],
+  },
+  {
     name: 'Test Page',
     icon: 'table',
     path: '/test',

@@ -3,7 +3,7 @@ import Footer from '@/components/Footer';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { LoginForm, ProFormCheckbox, ProFormText } from '@ant-design/pro-components';
 import { useMutation } from '@apollo/client';
-import { FormattedMessage, history } from '@umijs/max';
+import { FormattedMessage, history, Link } from '@umijs/max';
 import { Alert, message } from 'antd';
 import React from 'react';
 import styles from './index.less';
@@ -35,8 +35,8 @@ const Login: React.FC = () => {
         message.error(defaultLoginFailureMessage);
       },
       onCompleted: (data) => {
-        console.log(data.login.accessToken);
         localStorage.setItem('token', data.login.accessToken);
+        message.success('Account Registered Successfully!');
         const urlParams = new URL(window.location.href).searchParams;
         history.push(urlParams.get('redirect') || '/');
       },
@@ -49,13 +49,20 @@ const Login: React.FC = () => {
         <LoginForm
           logo={<img alt="logo" src="/logo.svg" />}
           title=""
-          subTitle="WE RISE TOGETHER"
+          subTitle="we rise together"
           initialValues={{
             autoLogin: true,
           }}
           onFinish={async (values) => {
             await handleSubmit(values as API.LoginParams);
           }}
+          actions={
+            <div className={styles.actionContainer}>
+              <span>
+                Don't have an account? <Link to="/user/register">Register</Link>
+              </span>
+            </div>
+          }
         >
           {error && <LoginMessage content="Login Error" />}
           <>
