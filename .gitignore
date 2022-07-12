@@ -30,7 +30,7 @@
 /frontend/.temp/**
 
 # umi
-/frontend/.umi
+/frontend/src/.umi/
 /frontend/.umi-production
 
 # screenshot
