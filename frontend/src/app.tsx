@@ -1,11 +1,11 @@
 import Footer from '@/components/Footer';
 import RightContent from '@/components/RightContent';
-import { LinkOutlined } from '@ant-design/icons';
+import { LinkOutlined, MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
 import type { Settings as LayoutSettings } from '@ant-design/pro-components';
 import { ApolloProvider } from '@apollo/client';
 import type { RunTimeLayoutConfig } from '@umijs/max';
 import { history, Link } from '@umijs/max';
-import { createElement } from 'react';
+import { createElement, useState } from 'react';
 import defaultSettings from '../config/defaultSettings';
 import { client } from './apollo';
 import { DEV } from './env.config';
@@ -36,10 +36,14 @@ export async function getInitialState(): Promise<{
 
 // ProLayout https://procomponents.ant.design/components/layout
 export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) => {
+  const [collapsed, setCollapsed] = useState(false);
   return {
     rightContentRender: () => <RightContent />,
     disableContentMargin: false,
     footerRender: () => <Footer />,
+    collapsedButtonRender: false,
+    collapsed,
+    onCollapse: setCollapsed,
     onPageChange: () => {
       const { location } = history;
       if (!initialState?.token && location.pathname !== loginPath) {
@@ -66,7 +70,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
         width: '331px',
       },
     ],
-    siderWidth: 208,
+    siderWidth: 230,
     links: DEV
       ? [
           <Link key="openapi" to="https://echo-be.herokuapp.com/graphql" target="_blank">
@@ -76,11 +80,26 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
         ]
       : [],
     menuHeaderRender: undefined,
+    headerContentRender: () => {
+      return (
+        <div
+          onClick={() => setCollapsed(!collapsed)}
+          style={{
+            cursor: 'pointer',
+            fontSize: '16px',
+            marginLeft: '22px',
+          }}
+        >
+          {collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+        </div>
+      );
+    },
     childrenRender: (children, props) => {
       if (initialState?.loading) return <h1>Loading..</h1>;
       return <>{children}</>;
     },
     ...initialState?.settings,
+    title: '',
   };
 };
 

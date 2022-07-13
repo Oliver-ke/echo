@@ -77,7 +77,6 @@ export default defineConfig({
    * @doc https://umijs.org/docs/max/layout-menu
    */
   layout: {
-    locale: true,
     siderWidth: 208,
     ...defaultSettings,
   },
