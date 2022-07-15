@@ -10,8 +10,46 @@ Table User {
   password String [not null]
   firstname String
   lastname String
+  role Role [not null, default: 'FELLOW']
+  bio String
+  attentionStatement String
+  issueType String
+  issueCategory String
+  country String
+  phoneNumber String
+  age String
+  pictureUrl String
   posts Post [not null]
-  role Role [not null]
+  appointments Appointment [not null]
+  availabilities Availability [not null]
+}
+
+Table Appointment {
+  id Int [pk, increment]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  status AppointMentStatus [not null, default: 'PENDING']
+  startDate DateTime [not null]
+  endDate DateTime [not null]
+  user User
+  userId Int
+  guestId Int [not null]
+  guestAvailability Availability
+  guestAvailabilityId Int
+  about String [not null]
+}
+
+Table Availability {
+  id Int [pk, increment]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  active Boolean [not null]
+  available Boolean [not null]
+  startTimeDate DateTime [not null]
+  endTimeDate DateTime [not null]
+  user User
+  userId Int
+  appointments Appointment [not null]
 }
 
 Table Post {
@@ -27,7 +65,21 @@ Table Post {
 
 Enum Role {
   ADMIN
-  USER
+  FELLOW
+  COACH
 }
+
+Enum AppointMentStatus {
+  ACCEPTED
+  PENDING
+  COMPLETED
+  CANCELED
+}
+
+Ref: Appointment.userId > User.id
+
+Ref: Appointment.guestAvailabilityId > Availability.id
+
+Ref: Availability.userId > User.id
 
 Ref: Post.authorId > User.id

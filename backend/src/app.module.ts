@@ -7,7 +7,8 @@ import { AppService } from './app.service';
 import { AppResolver } from './app.resolver';
 import { AuthModule } from 'src/auth/auth.module';
 import { UsersModule } from 'src/users/users.module';
-import { PostsModule } from 'src/posts/posts.module';
+import { AvailabilityModule } from 'src/availability/availability.module';
+import { AppointmentModule } from 'src/appointment/appointment.module';
 import config from 'src/common/configs/config';
 import { loggingMiddleware } from 'src/common/middleware/logging.middleware';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
@@ -30,7 +31,8 @@ import { GqlConfigService } from './gql-config.service';
 
     AuthModule,
     UsersModule,
-    PostsModule,
+    AppointmentModule,
+    AvailabilityModule,
   ],
   controllers: [AppController],
   providers: [AppService, AppResolver],

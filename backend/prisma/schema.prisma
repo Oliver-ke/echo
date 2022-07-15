@@ -1,11 +1,11 @@
 datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
+  provider             = "mysql"
+  url                  = env("DATABASE_URL")
   referentialIntegrity = "prisma"
 }
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
   previewFeatures = ["referentialIntegrity"]
 }
 
@@ -14,19 +14,58 @@ generator dbml {
 }
 
 model User {
-  id        Int      @default(autoincrement()) @id
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  email     String   @unique
-  password  String
-  firstname String?
-  lastname  String?
-  posts     Post[]
-  role      Role
+  id                 Int            @id @default(autoincrement())
+  createdAt          DateTime       @default(now())
+  updatedAt          DateTime       @updatedAt
+  email              String         @unique
+  password           String
+  firstname          String?
+  lastname           String?
+  role               Role           @default(FELLOW)
+  bio                String?
+  attentionStatement String?
+  issueType          String?
+  issueCategory      String?
+  country            String?
+  phoneNumber        String?
+  age                String?
+  pictureUrl         String?
+  posts              Post[]
+  appointments       Appointment[]
+  availabilities     Availability[]
 }
 
+model Appointment {
+  id                  Int               @id @default(autoincrement())
+  createdAt           DateTime          @default(now())
+  updatedAt           DateTime          @updatedAt
+  status              AppointMentStatus @default(PENDING)
+  startDate           DateTime
+  endDate             DateTime
+  user                User?             @relation(fields: [userId], references: [id])
+  userId              Int?
+  guestId             Int
+  guestAvailability   Availability?     @relation(fields: [guestAvailabilityId], references: [id])
+  guestAvailabilityId Int?
+  about               String
+}
+
+model Availability {
+  id            Int           @id @default(autoincrement())
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  active        Boolean
+  available     Boolean
+  startTimeDate DateTime
+  endTimeDate   DateTime
+  user          User?         @relation(fields: [userId], references: [id])
+  userId        Int?
+  appointments  Appointment[]
+}
+
+// @TODO: delete model
 model Post {
-  id        Int     @default(autoincrement()) @id
+  id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   published Boolean
@@ -38,5 +77,13 @@ model Post {
 
 enum Role {
   ADMIN
-  USER
+  FELLOW
+  COACH
+}
+
+enum AppointMentStatus {
+  ACCEPTED
+  PENDING
+  COMPLETED
+  CANCELED
 }

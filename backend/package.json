@@ -32,6 +32,7 @@
     "prisma:studio": "npx prisma studio",
     "prisma:generate": "npx prisma generate",
     "prisma:generate:watch": "npx prisma generate --watch",
+    "prisma:push": "npx prisma db push",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",

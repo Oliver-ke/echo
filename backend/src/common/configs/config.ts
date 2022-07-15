@@ -9,8 +9,8 @@ const config: Config = {
   },
   swagger: {
     enabled: true,
-    title: 'Nestjs FTW',
-    description: 'The nestjs API description',
+    title: 'Echo Application',
+    description: 'Bringing a platform for the lost to connect',
     version: '1.5',
     path: 'api',
   },
@@ -21,7 +21,7 @@ const config: Config = {
     sortSchema: true,
   },
   security: {
-    expiresIn: '2m',
+    expiresIn: '60m',
     refreshIn: '7d',
     bcryptSaltOrRound: 10,
   },

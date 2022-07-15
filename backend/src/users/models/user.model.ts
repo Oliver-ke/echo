@@ -10,17 +10,38 @@ import { Role } from '@prisma/client';
 
 registerEnumType(Role, {
   name: 'Role',
-  description: 'User role',
+  description: 'User role can either be ADMIN, COACH or FELLOW',
 });
 
 @ObjectType()
 export class User extends BaseModel {
-  email: string;
-  firstname?: string;
-  lastname?: string;
-  @Field(() => Role)
-  role: Role;
-  posts: Post[];
   @HideField()
   password: string;
+
+  email: string;
+
+  firstname?: string;
+
+  lastname?: string;
+
+  @Field(() => Role)
+  role: Role;
+
+  posts: Post[];
+
+  bio?: string;
+
+  attentionStatement: string;
+
+  issueCategory: string;
+
+  issueType: string;
+
+  country: string;
+
+  phoneNumber: string;
+
+  age: string;
+
+  pictureUrl: string;
 }
