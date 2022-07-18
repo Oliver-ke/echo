@@ -68,15 +68,67 @@ input CreateAppointmentInput {
   startDate: String
 }
 
+input CreateAttendeeInput {
+  eventId: Int!
+  userId: Int!
+}
+
 input CreateAvailabilityInput {
   endTimeDate: DateTime
   startTimeDate: DateTime
+}
+
+input CreateEventInput {
+  completed: Boolean = false
+  endDateTime: DateTime!
+  meetingLink: String!
+  purpose: String!
+  startDateTime: DateTime!
+}
+
+input CreateMessageInput {
+  content: String!
+  fromUserId: Int!
+  threadId: Int!
+  toUserId: Int!
 }
 
 """
 A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
 """
 scalar DateTime
+
+type Event {
+  attendees: [EventAttendee!]!
+  completed: Boolean!
+
+  """Identifies the date and time when the object was created."""
+  createdAt: DateTime!
+  endDateTime: DateTime!
+  host: User!
+  hostId: Int!
+  id: ID!
+  meetingLink: String!
+  purpose: String!
+  startDateTime: DateTime!
+
+  """Identifies the date and time when the object was last updated."""
+  updatedAt: DateTime!
+  user: User!
+}
+
+type EventAttendee {
+  """Identifies the date and time when the object was created."""
+  createdAt: DateTime!
+  event: Event!
+  eventId: Int!
+  id: ID!
+
+  """Identifies the date and time when the object was last updated."""
+  updatedAt: DateTime!
+  user: User!
+  userId: Int!
+}
 
 """
 A field whose value is a JSON Web Token (JWT): https://jwt.io/introduction.
@@ -88,17 +140,50 @@ input LoginInput {
   password: String!
 }
 
+type Message {
+  content: String!
+
+  """Identifies the date and time when the object was created."""
+  createdAt: DateTime!
+  fromUserId: String!
+  id: ID!
+  thread: MessageThread!
+  threadId: Int!
+  toUserId: String!
+
+  """Identifies the date and time when the object was last updated."""
+  updatedAt: DateTime!
+}
+
+type MessageThread {
+  """Identifies the date and time when the object was created."""
+  createdAt: DateTime!
+  creator: User!
+  creatorId: Int!
+  guestId: String!
+  id: ID!
+  messages: [Message!]!
+
+  """Identifies the date and time when the object was last updated."""
+  updatedAt: DateTime!
+}
+
 type Mutation {
   changeAppointmentStatus(id: Int!, status: String!): Appointment!
   changePassword(data: ChangePasswordInput!): User!
   createAppointment(data: CreateAppointmentInput!): Appointment!
   createAvailability(data: CreateAvailabilityInput!): Availability!
+  createEvent(data: CreateEventInput!): Event!
+  createEventAttendee(data: CreateAttendeeInput!): EventAttendee!
+  createMessage(data: CreateMessageInput!): Message!
   deleteAppointment(ids: [Int!]!): Appointment!
+  deleteAttendee(ids: [Int!]!): EventAttendee!
   login(data: LoginInput!): Auth!
   refreshToken(token: JWT!): Token!
   signup(data: SignupInput!): Auth!
   updateAppointment(data: UpdateAppointmentInput!, id: Int!): Appointment!
   updateAvailability(data: UpdateAvailabilityInput!, id: Int!): Availability!
+  updateEvent(data: UpdateEvent!, id: Int!): Event!
   updateUser(data: UpdateUserInput!): User!
 }
 
@@ -118,10 +203,16 @@ type Post {
 
 type Query {
   appointment(id: Int!): Appointment!
+  attendee(id: Int!): EventAttendee!
+  attendees: [EventAttendee!]!
   availabilities: [Availability!]!
   availability(id: Int!): Availability!
+  event(id: Int!): Event!
+  events: [Event!]!
   helloWorld: String!
   me: User!
+  message(id: Int!): Message!
+  messages(thread: Int!): [Message!]!
 }
 
 """User role can either be ADMIN, COACH or FELLOW"""
@@ -158,6 +249,14 @@ input UpdateAvailabilityInput {
   available: Boolean
   endTimeDate: DateTime
   startTimeDate: DateTime
+}
+
+input UpdateEvent {
+  completed: Boolean = false
+  endDateTime: DateTime!
+  meetingLink: String!
+  purpose: String!
+  startDateTime: DateTime!
 }
 
 input UpdateUserInput {

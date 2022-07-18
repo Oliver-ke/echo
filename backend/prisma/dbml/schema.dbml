@@ -22,6 +22,9 @@ Table User {
   posts Post [not null]
   appointments Appointment [not null]
   availabilities Availability [not null]
+  events Event [not null]
+  attendee EventAttendee [not null]
+  MessageThreads MessageThread [not null]
 }
 
 Table Appointment {
@@ -50,6 +53,51 @@ Table Availability {
   user User
   userId Int
   appointments Appointment [not null]
+}
+
+Table Event {
+  id Int [pk, increment]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  purpose String [not null]
+  meetingLink String [not null]
+  completed Boolean [not null]
+  startDateTime DateTime [not null]
+  endDateTime DateTime [not null]
+  host User
+  hostId Int
+  attendees EventAttendee [not null]
+}
+
+Table EventAttendee {
+  id Int [pk, increment]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  user User
+  userId Int
+  event Event
+  eventId Int
+}
+
+Table MessageThread {
+  id Int [pk, increment]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  creator User
+  creatorId Int
+  guestId Int [not null]
+  messages Message [not null]
+}
+
+Table Message {
+  id Int [pk, increment]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  content String [not null]
+  toUserId Int [not null]
+  fromUserId Int [not null]
+  thread MessageThread
+  threadId Int [not null]
 }
 
 Table Post {
@@ -81,5 +129,15 @@ Ref: Appointment.userId > User.id
 Ref: Appointment.guestAvailabilityId > Availability.id
 
 Ref: Availability.userId > User.id
+
+Ref: Event.hostId > User.id
+
+Ref: EventAttendee.userId > User.id
+
+Ref: EventAttendee.eventId > Event.id
+
+Ref: MessageThread.creatorId > User.id
+
+Ref: Message.threadId > MessageThread.id
 
 Ref: Post.authorId > User.id
